@@ -62,6 +62,24 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseMove"",
+                    ""type"": ""Value"",
+                    ""id"": ""87f6971b-6165-4258-8058-667753a8836a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PauseKey"",
+                    ""type"": ""Button"",
+                    ""id"": ""208fc390-436b-4d0b-999b-e0b08d0f2315"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -174,6 +192,28 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Mouse2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6d8af6aa-8bef-4d04-9500-e7141ce79443"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f098c06a-45c0-4c3d-af24-685ca9670c4e"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseKey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -186,6 +226,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Mouse1 = m_Gameplay.FindAction("Mouse1", throwIfNotFound: true);
         m_Gameplay_Mouse2 = m_Gameplay.FindAction("Mouse2", throwIfNotFound: true);
+        m_Gameplay_MouseMove = m_Gameplay.FindAction("MouseMove", throwIfNotFound: true);
+        m_Gameplay_PauseKey = m_Gameplay.FindAction("PauseKey", throwIfNotFound: true);
     }
 
     ~@PlayerInputs()
@@ -256,6 +298,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Mouse1;
     private readonly InputAction m_Gameplay_Mouse2;
+    private readonly InputAction m_Gameplay_MouseMove;
+    private readonly InputAction m_Gameplay_PauseKey;
     public struct GameplayActions
     {
         private @PlayerInputs m_Wrapper;
@@ -264,6 +308,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @Mouse1 => m_Wrapper.m_Gameplay_Mouse1;
         public InputAction @Mouse2 => m_Wrapper.m_Gameplay_Mouse2;
+        public InputAction @MouseMove => m_Wrapper.m_Gameplay_MouseMove;
+        public InputAction @PauseKey => m_Wrapper.m_Gameplay_PauseKey;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -285,6 +331,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Mouse2.started += instance.OnMouse2;
             @Mouse2.performed += instance.OnMouse2;
             @Mouse2.canceled += instance.OnMouse2;
+            @MouseMove.started += instance.OnMouseMove;
+            @MouseMove.performed += instance.OnMouseMove;
+            @MouseMove.canceled += instance.OnMouseMove;
+            @PauseKey.started += instance.OnPauseKey;
+            @PauseKey.performed += instance.OnPauseKey;
+            @PauseKey.canceled += instance.OnPauseKey;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -301,6 +353,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Mouse2.started -= instance.OnMouse2;
             @Mouse2.performed -= instance.OnMouse2;
             @Mouse2.canceled -= instance.OnMouse2;
+            @MouseMove.started -= instance.OnMouseMove;
+            @MouseMove.performed -= instance.OnMouseMove;
+            @MouseMove.canceled -= instance.OnMouseMove;
+            @PauseKey.started -= instance.OnPauseKey;
+            @PauseKey.performed -= instance.OnPauseKey;
+            @PauseKey.canceled -= instance.OnPauseKey;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -324,5 +382,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnMouse1(InputAction.CallbackContext context);
         void OnMouse2(InputAction.CallbackContext context);
+        void OnMouseMove(InputAction.CallbackContext context);
+        void OnPauseKey(InputAction.CallbackContext context);
     }
 }
