@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 6478811159144547760}
   - component: {fileID: 175027764527121456}
   - component: {fileID: 775819589329607322}
+  - component: {fileID: -8106594827387493963}
+  - component: {fileID: 474622699160101876}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -50,7 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4250426886
+  GlobalObjectIdHash: 2887904514
   InScenePlacedSourceGlobalObjectIdHash: 2887904514
   DeferredDespawnTick: 0
   Ownership: 1
@@ -107,6 +109,7 @@ MonoBehaviour:
   mouseSensitivity: 0.05
   upDownRange: 40
   povCam: {fileID: 5351573567518661979}
+  bomb: {fileID: 5688943784262962023, guid: 90a41493ff495f44aac77c52fad2c032, type: 3}
 --- !u!114 &175027764527121456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,6 +270,43 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!95 &-8106594827387493963
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6109109288891418197}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ad035cd0735c41243bead179e47ba243, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &474622699160101876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6109109288891418197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0623ddfec15ec4a4ab39bff0433ff815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  TransitionStateInfoList: []
+  m_Animator: {fileID: -8106594827387493963}
 --- !u!1 &8133309145750071572
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,7 +325,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5001029847185426823
 Transform:
   m_ObjectHideFlags: 0

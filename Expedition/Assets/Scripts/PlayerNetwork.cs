@@ -12,32 +12,36 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] float mouseSensitivity = 100;
     [SerializeField] float upDownRange;
     [SerializeField] Camera povCam;
+    [SerializeField] Transform bomb;
+    Transform sot;
+
     CharacterController characterController;
     float verticalLookRotation = 0f;
     bool pauseMenuOpen = false;
     Vector2 moveInput;
     Vector2 lookInput;
     Vector3 velocity;
+
+    public void SpawnBomb()
+    {
+        sot = Instantiate(bomb);
+        sot.GetComponent<NetworkObject>().Spawn(true);
+    }
+    /// <summary> I don't remember what this is for tbh </summary>
     NetworkVariable<PlayerData> rnum = new NetworkVariable<PlayerData>( new PlayerData
     {
         _int = 32,
         _bool = true
     }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-
-    private bool HasControl()//determines if the player has control of this player character
+    /// <summary> determines if the player has control of this player character </summary>
+    private bool HasControl()//
     {
         if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening)
             return true; // offline mode
         return IsOwner;
     }
-
-    private void Start()
-    {
-        characterController = GetComponent<CharacterController>();
-        ToggleLockCursor(true);
-    }
-
+    /// <summary> I don't remember what this is for tbh </summary>
     public struct PlayerData : INetworkSerializable 
     {
         public int _int;
@@ -53,6 +57,8 @@ public class PlayerNetwork : NetworkBehaviour
     }
     public override void OnNetworkSpawn()
     {
+        characterController = GetComponent<CharacterController>();
+        ToggleLockCursor(true);
         rnum.OnValueChanged += (PlayerData previousValue, PlayerData newValue) =>
         {
             Debug.Log(OwnerClientId + " Random Number Changed: " + previousValue + " to " + newValue._int + " " + newValue._bool + newValue._string);
@@ -63,6 +69,10 @@ public class PlayerNetwork : NetworkBehaviour
         if (HasControl() == false)
             return;
 
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            TestServerRpc();
+        }
         Movement();
         Looking();
     }
@@ -111,9 +121,15 @@ public class PlayerNetwork : NetworkBehaviour
         rnum.Value = new PlayerData
         {
             _int = Random.Range(0, 100),
-            _string = "I want to squeeze some titties so bad ",
+            _string = "You eat all my beans nigga?!?!",
             _bool = false
         };
+    }
+    [ServerRpc]
+    void TestServerRpc()
+    {
+        SpawnBomb();
+        Debug.Log("Server RPC called by " + OwnerClientId);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////Input Actions///////////////////////////////////////////////////////////////////////////////////////////////
